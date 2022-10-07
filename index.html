@@ -39,7 +39,7 @@
     <header class="navbar">
         <a id=leaderboard>View Highscores <i class="fas fa-hand-point-left fa-lg"></i>
         </i></a> 
-       <a id=time>Time :</a>
+       <a id=time>Time : <span id="timer"></span></a>
     </header>
    
     <main>
@@ -51,6 +51,19 @@
             <button type="button" class="btn">Start Quiz</button>
        </div>
     </main>
+    <script>
+        document.getElementById("timer").innerHTML="59";
+        startTimer();
+        function startTimer(){
+            var s=document.getElementById("timer").innerHTML;
+            if(s===0)
+            return;
+            s=s-1;
+            console.log(s);
+            document.getElementById("timer").innerHTML=s;
+            setTimeout(startTimer,1000);
+        }
+        </script>
     <script src="assets/script.js"></script>
 </body>
 
