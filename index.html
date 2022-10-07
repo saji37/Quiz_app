@@ -90,7 +90,7 @@
     <h4>
         <span id="scoreboard"></span>
     </h4>
-    <button type="button" class="btn">Go Back</button><button type="button" class="btn">Clear Highscores</button>
+    <button type="button" class="btn" onclick="restart();">Go Back</button><button type="button" class="btn" onclick="clearscores();">Clear Highscores</button>
    </div>
     </main>
     <script src="assets/script.js"></script>
@@ -136,6 +136,7 @@
                 $("#res").css({'color':'red'});
             }
             if(i===questions.length-1){
+                document.getElementById("timer").innerHTML='0';
                 $("#finish").show();
                 $("#div1").hide();
                 console.log(score);
@@ -159,7 +160,7 @@
         }
 
         function addHighScore(){
-            document.getElementById("timer").innerHTML='0';
+          
             var name=document.getElementById("init").value;
             let scores={
                     "name":name,
@@ -171,17 +172,29 @@
                 localStorage.setItem("highscores", JSON.stringify(high));
             }else{
                 localStorage.setItem("highscores", JSON.stringify([scores]));
-            }
-            console.log("ls",localStorage.getItem("highscores"))
-            $("#highscores").show();
+            }            $("#highscores").show();
             $("#finish").hide();
             getscores();
         }
         function getscores(){
             var highscores=JSON.parse(localStorage.getItem("highscores"));
+            if(highscores){
             for (var j = 0; j < highscores.length; j++){
-                document.getElementById("scoreboard").innerHTML+=`${j}|  ${highscores[j].name} : ${highscores[j].score}<br/>`;
+                document.getElementById("scoreboard").innerHTML+=`${j+1}|  ${highscores[j].name} : ${highscores[j].score}<br/>`;
             }
+        }
+        else{
+            document.getElementById("scoreboard").innerHTML="No record found";
+        }
+        }
+
+        function restart(){
+            location.reload();
+        }
+
+        function clearscores(){
+            localStorage.clear();
+            getscores();
         }
         </script>
         <script>
