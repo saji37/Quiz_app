@@ -28,7 +28,7 @@
                color:white;
                margin:10px;
             }
-            #note,#div1,#finish{
+            #note,#div1,#finish,#highscores{
                 margin:100px;
             }
             #leaderboard{
@@ -82,11 +82,14 @@
         <label for="init">Enter your initials : </label>
     <input id="init" class="form-control" type="text">
     </div>
-    <button type="button" class="btn">Submit</button>
+    <button id="done" type="button" class="btn" onclick="addHighScore();">Submit</button>
    </div>
 
    <div id="highscores" class="container col-md-4 shadow p-3 mb-5 bg-white rounded">
     <h1>High Scores</h1>
+    <h4>
+        <span id="scoreboard"></span>
+    </h4>
     <button type="button" class="btn">Go Back</button><button type="button" class="btn">Clear Highscores</button>
    </div>
     </main>
@@ -104,11 +107,11 @@
         document.getElementById("timer").innerHTML="59";
         function startTimer(){
             let s=document.getElementById("timer").innerHTML;
+            
             if(s<='0'){
             document.getElementById("timer").innerHTML='0';
             $("#finish").show();
             $("#div1").hide();
-            console.log(score);
             $("#score").text(score);
             $('#res').text("");
             return;
@@ -120,8 +123,6 @@
         
         function validate(id){
             $('#op1,#op2,#op3,#op4').attr('disabled','disabled');
-                console.log(i);
-                console.log(questions.length-1)
             const {answer:a} =questions[i];
             var ans=document.getElementById(id).innerHTML;
             if(ans===a){
@@ -154,6 +155,32 @@
                     document.getElementById("op3").innerHTML=op3;
                     document.getElementById("op4").innerHTML=op4;
                 } ,1000 )
+            }
+        }
+
+        function addHighScore(){
+            document.getElementById("timer").innerHTML='0';
+            var name=document.getElementById("init").value;
+            let scores={
+                    "name":name,
+                    "score":score,
+                }
+            if(localStorage.getItem("highscores")){
+                var high=JSON.parse(localStorage.getItem("highscores"))
+                high.push(scores);
+                localStorage.setItem("highscores", JSON.stringify(high));
+            }else{
+                localStorage.setItem("highscores", JSON.stringify([scores]));
+            }
+            console.log("ls",localStorage.getItem("highscores"))
+            $("#highscores").show();
+            $("#finish").hide();
+            getscores();
+        }
+        function getscores(){
+            var highscores=JSON.parse(localStorage.getItem("highscores"));
+            for (var j = 0; j < highscores.length; j++){
+                document.getElementById("scoreboard").innerHTML+=`${j}|  ${highscores[j].name} : ${highscores[j].score}<br/>`;
             }
         }
         </script>
