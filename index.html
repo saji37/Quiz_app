@@ -9,6 +9,10 @@
     <!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script
+  src="https://code.jquery.com/jquery-3.6.1.min.js"
+  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+  crossorigin="anonymous"></script>
     <title>Codedamn - Quiz Project</title>
     <style>
         header{
@@ -48,23 +52,40 @@
             <h6>Try to answer the following code related questions in given time limit<br/>
             Keep in mind that incorrect answer will penalize time/score
             </h6>
-            <button type="button" class="btn">Start Quiz</button>
+            <button type="button" class="btn" onclick="startTimer();">Start Quiz</button>
        </div>
+       <div id="div1" class="container col-md-8 shadow p-3 mb-5 bg-white rounded">
+        <h1 id="ques">Question</h1>
+        <h6>Try to answer the following code related questions in given time limit<br/>
+        </h6>
+        <button type="button" id="btnmain" class="btn">Next Question</button>
+   </div>
     </main>
+    <script src="assets/script.js"></script>
     <script>
+        const {questionText:q1} = questions[0];
+        document.getElementById("ques").innerHTML=q1;
         document.getElementById("timer").innerHTML="59";
-        startTimer();
         function startTimer(){
             var s=document.getElementById("timer").innerHTML;
-            if(s===0)
+            if(s==='0')
             return;
             s=s-1;
-            console.log(s);
             document.getElementById("timer").innerHTML=s;
             setTimeout(startTimer,1000);
         }
         </script>
-    <script src="assets/script.js"></script>
+        <script>
+            $(function(){
+
+                $("#div1").hide();
+                $("button").click(function(){
+                    $("#div1").show();
+                    $("#note").hide();
+                })
+            })
+        </script>
+    
 </body>
 
 </html>
