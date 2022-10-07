@@ -44,6 +44,11 @@
                 font-size: large;
                 text-align: left;
             }
+            #res{
+                margin-left:500px;
+                font-size: large;
+                font-weight: bold;
+            }
     </style>
 </head>
 
@@ -64,10 +69,10 @@
        </div>
        <div id="div1" class="container col-md-8 shadow p-3 mb-5 bg-white rounded">
         <h1 id="ques">Question</h1>
-        <button type="button" id="op1" class="btn col-md-8"></button>
-        <button type="button" id="op2" class="btn col-md-8"></button>
-        <button type="button" id="op3" class="btn col-md-8"></button>
-        <button type="button" id="op4" class="btn col-md-8"></button>
+        <button type="button" id="op1" class="btn col-md-8" onclick="validate(id);"></button>
+        <button type="button" id="op2" class="btn col-md-8" onclick="validate(id);"></button>
+        <button type="button" id="op3" class="btn col-md-8" onclick="validate(id);"></button>
+        <button type="button" id="op4" class="btn col-md-8" onclick="validate(id);"></button>
    </div>
    <div id="res"></div>
     </main>
@@ -89,18 +94,28 @@
             document.getElementById("timer").innerHTML=s;
             setTimeout(startTimer,1000);
         }
+
+        function validate(id){
+            const {answer:a} =questions[0];
+            var ans=document.getElementById(id).innerHTML;
+            if(ans===a){
+            $("#res").text("Correct !!!");
+            $("#res").css({'color':'green'});
+            }
+            else{
+            $("#res").text("Incorrect");
+            $("#res").css({'color':'red'});
+            }
+        }
         </script>
         <script>
             $(function(){
-
                 $("#div1").hide();
                 $("button").click(function(){
                     $("#div1").show();
                     $("#note").hide();
                 })
-                $("#op1,#op2,#op3,#op4").click(function(){
-                    $("#res").text("Getting");
-                })
+                
             })
         </script>
     
