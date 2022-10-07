@@ -65,7 +65,7 @@
             <h6>Try to answer the following code related questions in given time limit<br/>
             Keep in mind that incorrect answer will penalize time/score
             </h6>
-            <button type="button" class="btn" onclick="startTimer();">Start Quiz</button>
+            <button type="button" id="start" class="btn" onclick="startTimer();">Start Quiz</button>
        </div>
        <div id="div1" class="container col-md-8 shadow p-3 mb-5 bg-white rounded">
         <h1 id="ques">Question</h1>
@@ -77,17 +77,23 @@
    <div id="res"></div>
    <div id="finish" class="container col-md-6 shadow p-3 mb-5 bg-white rounded">
     <h1>All Done !!!</h1>
-    <h6>Your score is <span id="score"></span></h6><br/>
+    <h6>Your score is <span id="score"></span>/50</h6><br/>
     <div class="col-md-4">
         <label for="init">Enter your initials : </label>
     <input id="init" class="form-control" type="text">
     </div>
     <button type="button" class="btn">Submit</button>
    </div>
+
+   <div id="highscores" class="container col-md-4 shadow p-3 mb-5 bg-white rounded">
+    <h1>High Scores</h1>
+    <button type="button" class="btn">Go Back</button><button type="button" class="btn">Clear Highscores</button>
+   </div>
     </main>
     <script src="assets/script.js"></script>
     <script>
         var i=0;
+        var score=0;
         const {questionText:q1} = questions[i];
         const [op1,op2,op3,op4] =questions[i].options;
         document.getElementById("ques").innerHTML=q1;
@@ -102,42 +108,52 @@
             document.getElementById("timer").innerHTML='0';
             $("#finish").show();
             $("#div1").hide();
+            console.log(score);
+            $("#score").text(score);
+            $('#res').text("");
             return;
             }
             s=s-1;
             document.getElementById("timer").innerHTML=s;
             setTimeout(startTimer,1000);
         }
-
+        
         function validate(id){
             $('#op1,#op2,#op3,#op4').attr('disabled','disabled');
+                console.log(i);
+                console.log(questions.length-1)
             const {answer:a} =questions[i];
             var ans=document.getElementById(id).innerHTML;
             if(ans===a){
                 $("#res").text("Correct !!!");
                 $("#res").css({'color':'green'});
+                score+=10;
             }
             else{
                 document.getElementById("timer").innerHTML-=10;
                 $("#res").text("Incorrect");
                 $("#res").css({'color':'red'});
             }
-            if(i!==questions.length){
-            i++;
-            setTimeout(function(){
-                $('#op1,#op2,#op3,#op4').removeAttr('disabled','disabled');
+            if(i===questions.length-1){
+                $("#finish").show();
+                $("#div1").hide();
+                console.log(score);
+                $("#score").text(score);
                 $('#res').text("");
-            const {questionText:q1} = questions[i];
-        const [op1,op2,op3,op4] =questions[i].options;
-        document.getElementById("ques").innerHTML=q1;
-        document.getElementById("op1").innerHTML=op1;
-        document.getElementById("op2").innerHTML=op2;
-        document.getElementById("op3").innerHTML=op3;
-        document.getElementById("op4").innerHTML=op4;
-             } ,2000 )
             }
             else{
-                $("#finish").show();
+                i++;
+                setTimeout(function(){
+                    $('#op1,#op2,#op3,#op4').removeAttr('disabled','disabled');
+                    $('#res').text("");
+                    const {questionText:q1} = questions[i];
+                    const [op1,op2,op3,op4] =questions[i].options;
+                    document.getElementById("ques").innerHTML=q1;
+                    document.getElementById("op1").innerHTML=op1;
+                    document.getElementById("op2").innerHTML=op2;
+                    document.getElementById("op3").innerHTML=op3;
+                    document.getElementById("op4").innerHTML=op4;
+                } ,1000 )
             }
         }
         </script>
@@ -145,7 +161,8 @@
             $(function(){
                 $("#finish").hide();
                 $("#div1").hide();
-                $("button").click(function(){
+                $("#highscores").hide();
+                $("#start").click(function(){
                     $("#div1").show();
                     $("#note").hide();
                 })
